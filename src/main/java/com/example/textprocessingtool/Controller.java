@@ -7,14 +7,37 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.*;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
 
+/**
+ * The type Controller.
+ */
 public class Controller {
+    /**
+     * The Replace button.
+     */
     @FXML public Button replaceButton;
+    /**
+     * The Search button.
+     */
     @FXML public Button searchButton;
+    /**
+     * The Word count label.
+     */
     @FXML public Label wordCountLabel;
+    /**
+     * The Open button.
+     */
+    @FXML public Button openButton;
+    /**
+     * The Save button.
+     */
+    @FXML public Button saveButton;
     @FXML private TextArea inputTextArea;
     @FXML private TextField searchPattern;
     @FXML private TextField replaceText;
@@ -119,24 +142,28 @@ public class Controller {
      */
     @FXML
     public void handleUpdate() {
-        DataEntry selected = dataTable.getSelectionModel().getSelectedItem();
-        if (selected == null) {
-            showAlert("No Selection", "Please select an entry to update");
-            return;
-        }
+       try {
+           DataEntry selected = dataTable.getSelectionModel().getSelectedItem();
+           if (selected == null) {
+               showAlert("No Selection", "Please select an entry to update");
+               return;
+           }
 
-        String[] inputs = validateAndGetInputs();
-        if (inputs == null) {
-            return;
-        }
+           String[] inputs = validateAndGetInputs();
+           if (inputs == null) {
+               return;
+           }
 
-        String name = inputs[0];
-        String value = inputs[1];
+           String name = inputs[0];
+           String value = inputs[1];
 
-        selected.setName(name);
-        selected.setValue(value);
-        dataTable.refresh();
-        clearFields();
+           selected.setName(name);
+           selected.setValue(value);
+           dataTable.refresh();
+           clearFields();
+       } catch (RuntimeException e) {
+           showAlert("Error", e.getMessage());
+       }
     }
 
     /**
@@ -198,6 +225,71 @@ public class Controller {
         }
 
         return new String[]{keyName, value};
+    }
+
+    /**
+     * Handle save option clicked.
+     * Save a file onto local storage of machine
+     */
+    @FXML
+    public void handleSave() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+
+        Stage stage = (Stage) inputTextArea.getScene().getWindow();
+        File file = fileChooser.showSaveDialog(stage);
+
+        if (file != null) {
+            saveFile(file);
+            showAlert("Saved", "File has been Saved");
+        }
+    }
+
+    private void saveFile(File file) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+
+            writer.write(inputTextArea.getText());
+        } catch (IOException e) {
+           showAlert("Error", e.getMessage());
+        }
+    }
+
+
+    /**
+     * Handle open option clicked.
+     * Open a file from local storage of machine
+     */
+    @FXML
+    public void handleOpen() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open File");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+
+        Stage stage = (Stage) inputTextArea.getScene().getWindow();
+        File file = fileChooser.showOpenDialog(stage);
+
+        if (file != null) {
+            openFile(file);
+        }
+    }
+
+    private void openFile(File file) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            StringBuilder content = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append(line).append("\n");
+            }
+
+            inputTextArea.setText(content.toString());
+        } catch (IOException e) {
+            showAlert("Error", e.getMessage());
+        }
+
+
+
+
     }
 
 }
