@@ -78,10 +78,7 @@ public class DataManagement {
         Matcher matcher = getMatcher(pattern, inputText);
         int count = 0;
 
-        while (matcher.find()) {
-            count++;
-        }
-
+        while (matcher.find()) count++;
         return count;
     }
 
@@ -92,9 +89,7 @@ public class DataManagement {
      * @return the int
      */
     public int countWords(String inputText) {
-        if (inputText == null || inputText.trim().isEmpty()) {
-            return 0;
-        }
+        if (inputText == null || inputText.trim().isEmpty()) return 0;
         String[] words = inputText.trim().split("\\s+");
         return words.length;
     }

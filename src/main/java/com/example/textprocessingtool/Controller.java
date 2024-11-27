@@ -120,9 +120,7 @@ public class Controller {
     public void handleAdd() {
         String[] inputs = validateAndGetInputs();
 
-        if (inputs == null) {
-            return;
-        }
+        if (inputs == null) return;
 
         String name = inputs[0];
         String value = inputs[1];
@@ -138,7 +136,7 @@ public class Controller {
 
     /**
      * Handle update.
-     * Update a selected item in the L
+     * Update a selected item in the List
      */
     @FXML
     public void handleUpdate() {
@@ -150,9 +148,7 @@ public class Controller {
            }
 
            String[] inputs = validateAndGetInputs();
-           if (inputs == null) {
-               return;
-           }
+           if (inputs == null) return;
 
            String name = inputs[0];
            String value = inputs[1];
@@ -199,14 +195,10 @@ public class Controller {
      * @return true if the name is valid, false otherwise
      */
     private boolean validateName(String name) {
-        if (name == null) {
+        if (name == null || name.isEmpty()) {
             return true;
         }
         name = name.trim();
-
-        if (name.isEmpty()) {
-            return true;
-        }
         return name.matches("^[a-zA-Z ]+$");
     }
 
@@ -269,9 +261,7 @@ public class Controller {
         Stage stage = (Stage) inputTextArea.getScene().getWindow();
         File file = fileChooser.showOpenDialog(stage);
 
-        if (file != null) {
-            openFile(file);
-        }
+        if (file != null) openFile(file);
     }
 
     private void openFile(File file) {
@@ -286,10 +276,5 @@ public class Controller {
         } catch (IOException e) {
             showAlert("Error", e.getMessage());
         }
-
-
-
-
     }
-
 }
