@@ -12,4 +12,5 @@ module com.example.textprocessingtool {
 
     opens com.example.textprocessingtool to javafx.fxml;
     exports com.example.textprocessingtool;
+
 }

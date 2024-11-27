@@ -67,6 +67,34 @@ public class DataManagement {
         }
     }
 
+    /**
+     * Find count int.
+     *
+     * @param pattern   the pattern
+     * @param inputText the input text
+     * @return the int
+     */
+    public int findCount(String pattern, String inputText) {
+        Matcher matcher = getMatcher(pattern, inputText);
+        int count = 0;
+
+        while (matcher.find()) count++;
+        return count;
+    }
+
+    /**
+     * Count words int.
+     *
+     * @param inputText the input text
+     * @return the int
+     */
+    public int countWords(String inputText) {
+        if (inputText == null || inputText.trim().isEmpty()) return 0;
+        String[] words = inputText.trim().split("\\s+");
+        return words.length;
+    }
+
+
     private Matcher getMatcher(String pattern, String text){
         Pattern searchPattern = Pattern.compile(pattern);
         return searchPattern.matcher(text);
