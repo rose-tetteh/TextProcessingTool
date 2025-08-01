@@ -58,7 +58,7 @@ A versatile Java application designed for advanced text processing and data mana
 - Real-time feedback mechanisms
 - Comprehensive error handling
 
-![TPT - image.png](TPT-img.png)
+![TPT - image.png](https://github.com/rose-tetteh/TextProcessingTool/blob/main/TPT%20-%20image.png)
 
 ## Development Principles
 - Modular design
