@@ -58,6 +58,8 @@ A versatile Java application designed for advanced text processing and data mana
 - Real-time feedback mechanisms
 - Comprehensive error handling
 
+![img.png](TPT-img.png)
+
 ## Development Principles
 - Modular design
 - SOLID principles
